@@ -1,0 +1,9 @@
+"""
+see https://github.com/reddit-archive/reddit/wiki/OAuth2
+
+"""
+CLIENT_ID = " ADD CLIENT ID HERE"
+CLIENT_SECRET = "ADD SECRET HERE"
+USER_AGENT = "ADD USER AGENT HERE"
+USERNAME = "ADD USERNAME HERE"
+PASSWORD = "ADD PASSWORD HERE"

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Reddit Dashboard</title>
+    <!-- Custom fonts for this template-->
+    <link href=" {% static '/vendor/fontawesome-free/css/all.min.css' %} " rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href=" {% static '/css/sb-admin-2.min.css' %} " rel="stylesheet">
+</head>
+
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-grey topbar mb-4 static-top shadow">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-white">Dashboard</h1>
+                        <!-- Sidebar Toggle (Topbar) -->
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+
+                        </li>
+
+                        </li>
+                        </ul>
+                </nav>
+                <!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+
+                    </div>
+                    <!-- Content Row 1 -->
+                    <div class="row-thumb">
+                      <div class="column-top-row">
+                        <div class="column-inner">
+
+                          <!-- Air Quality -->
+                          <div class="col-md-auto mb-4">
+                              <div class="card shadow mb-4">
+                                  <div class="card-body card-column bg-grad-green text-white">
+                                      <div class="text-left">
+                                          <h4><strong>Air Quality PM2.5</strong></h4>
+                                          <h4><strong>London Westminster</strong></h4>
+                                      </div>
+                                      <h6 class="text-left">latitude: 51.49467 longitude: -0.131931</h6>
+                                      <div class="text-center">
+                                          <h1 class="h1-card">{{airquality}} <h6>µg/m³</h6>
+                                          </h1>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="column-inner">
+
+                          <!--weather -->
+                          <div class="col-md-auto mb-4 text-white">
+                              <div class="card shadow mb-4">
+                                  <div class="card-body card-column bg-grad-blue">
+                                      <div class="col-weather text-left">
+                                          <h1>London</h1>
+                                      </div>
+                                      <img src="http://openweathermap.org/img/wn/{{weather.icon}}@2x.png">
+                                      <div class="text-center">
+                                          <h1>{{ weather.temp}}°C</h1>
+                                          <h5> Humidity: {{weather.humidity}}%</h5>
+                                          <h6>Wind Speed: {{weather.wind_speed}} mph</h6>
+                                          <h6>{{weather.description}}</h6>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+
+                        <!--quote -->
+                        <div class="col-md-auto mb-4">
+                            <div class="card-quote shadow mb-4">
+                                <div class="card-body">
+                                    <div class="text-left">
+                                      {% for item in quote%}
+                                        <p class="quote" maxlength="20">{{item}}</p>
+                                        {%endfor%}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+
+                      <div class="column-top-row-1">
+
+                        <!-- car pic of the day -->
+                        <div class="row-thumb">
+                          <div class="col-md-thumb mb-4">
+                            <div class="card shadow mb-4">
+                              {% for item in car%}
+                              <a target="_blank" href="{{item.link}}">
+                                <img src="{{item.link}}" alt="car of the day" width="220" height="240">
+                              </a>
+                              <div class="desc"> {{item.title}}
+                              </div>
+                              {%endfor%}
+                            </div>
+                          </div>
+
+                          <!-- nature pic of the day -->
+                          <div class="col-md-thumb mb-4">
+                            <div class="card shadow mb-4">
+                              {% for item in nature%}
+                              <a target="_blank" href="{{item.link}}">
+                                <img src="{{item.link}}" alt="nature pic of the day" width="220" height="240">
+                              </a>
+                              <div class="desc"> {{item.title}}
+                              </div>
+                              {%endfor%}
+                            </div>
+                          </div>
+
+                          <!-- space pic of the day -->
+                          <div class="col-md-thumb mb-4">
+                            <div class="card shadow mb-4">
+                              {% for item in space%}
+                              <a target="_blank" href="{{item.link}}">
+                                <img src="{{item.link}}" alt="space pic of the day" width="220" height="240">
+                              </a>
+                              <div class="desc"> {{item.title}}
+                              </div>
+                              {%endfor%}
+                            </div>
+                          </div>
+
+                          <!-- city pic of the day -->
+                          <div class="col-md-thumb mb-4">
+                            <div class="card shadow mb-4">
+                              {% for item in skyline %}
+                              <a target="_blank" href="{{item.link}}">
+                                <img src="{{item.link}}" alt="city pic of the day" width="220" height="240">
+                              </a>
+                              <div class="desc"> {{item.title}}
+                              </div>
+                              {%endfor%}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <!-- Content Row articles -->
+                    <div class="row">
+                        <!-- World news -->
+                        <div class="col-xl-6 col-lg-5">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-red">
+                                    <h4 class="m-0 font-weight-bold text-primary">World News</h4>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <ul>
+                                            {% for item in worldnews %}
+                                            <li> <a class="btn-link" href="{{ item.link }}">{{item.title }} <small class="upvote-num"><strong> {{item.upvotes}} </strong></small></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- UK politics -->
+                        <div class="col-xl-6 col-lg-5\">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-orange">
+                                    <h4 class="m-0 font-weight-bold text-primary">UK Politics</h4>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <ul>
+                                            {% for item in ukpolitics %}
+                                            <li> <a class="btn-link" href="{{ item.link }}">{{item.title }} <small class="upvote-num"><strong> {{item.upvotes}} </strong></small></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- World football -->
+                        <div class="col-xl-6 col-lg-5\">
+                                <div class="card shadow mb-4">
+                                    <!-- Card Header - Dropdown -->
+                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-green">
+                                        <h4 class="m-0 font-weight-bold text-primary">World Football</h4>
+                                        <div class="dropdown no-arrow">
+                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                                                <div class="dropdown-header">Dropdown Header:</div>
+                                                <a class="dropdown-item" href="#">Action</a>
+                                                <a class="dropdown-item" href="#">Another action</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#">Something else here</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Card Body -->
+                                    <div class="card-body">
+                                        <div class="chart-area">
+                                            <ul>
+                                                {% for item in football %}
+                                                <li> <a class="btn-link" href="{{ item.link }}">{{item.title }} <small class="upvote-num"><strong> {{item.upvotes}} </strong></small></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+
+                        <!-- science -->
+                        <div class="col-xl-6 col-lg-5\">
+                                <div class="card shadow mb-4">
+                                    <!-- Card Header - Dropdown -->
+                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-purple">
+                                        <h4 class="m-0 font-weight-bold text-primary">Science</h4>
+                                        <div class="dropdown no-arrow">
+                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                                                <div class="dropdown-header">Dropdown Header:</div>
+                                                <a class="dropdown-item" href="#">Action</a>
+                                                <a class="dropdown-item" href="#">Another action</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#">Something else here</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Card Body -->
+                                    <div class="card-body">
+                                        <div class="chart-area">
+                                            <ul>
+                                                {% for item in science %}
+                                                <li> <a class="btn-link" href="{{ item.link }}">{{item.title }} <small class="upvote-num"><strong> {{item.upvotes}} </strong></small></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Reddit Dashboard 2020</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+        </div>
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href=" {% static '/#page-top' %} ">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <!-- Bootstrap core JavaScript-->
+    <script src=" {% static '/vendor/jquery/jquery.min.js' %} "></script>
+    <script src=" {% static '/vendor/bootstrap/js/bootstrap.bundle.min.js' %} "></script>
+    <!-- Core plugin JavaScript-->
+    <script src=" {% static '/vendor/jquery-easing/jquery.easing.min.js' %} "></script>
+    <!-- Custom scripts for all pages-->
+    <script src=" {% static '/js/sb-admin-2.min.js' %} "></script>
+    <!-- Page level plugins -->
+    <script src=" {% static '/vendor/chart.js/Chart.min.js' %} "></script>
+    <!-- Page level custom scripts -->
+    <script src=" {% static '/js/demo/chart-area-demo.js' %} "></script>
+    <script src=" {% static '/js/demo/chart-pie-demo.js' %} "></script>
+</body>
+
+</html>
