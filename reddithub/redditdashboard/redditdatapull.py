@@ -9,6 +9,7 @@ class DataPull():
         self.user_agent = user_agent
         self.username = username
         self.password = password
+        self.token = self.login()
 
     def login(self):
         headers = {"User-Agent": self.user_agent}
@@ -30,7 +31,7 @@ class DataPull():
         return response.json()
 
     def get_articles(self, subreddit, n_pages=1):
-        token = self.login()
+        token = self.token
         stories = []
         after = None
         for page_number in range(n_pages):
@@ -46,7 +47,6 @@ class DataPull():
             response = requests.get(url, headers=headers)
             result = response.json()
             after = result['data']['after']
-#            sleep(2)
             stories.extend(
                 [
                     (story['data']['title'], story['data']['url'],
@@ -59,7 +59,7 @@ class DataPull():
         return self.article_results_dict(stories)
 
     def get_image(self, subreddit, n_pages=1):
-        token = self.login()
+        token = self.token
         image_data = []
         after = None
         for page_number in range(n_pages):
@@ -75,7 +75,6 @@ class DataPull():
             response = requests.get(url, headers=headers)
             result = response.json()
             after = result['data']['after']
-#            sleep(2)
         image_data.extend(
             [(image['data']['title'], image['data']['url'])
                 for image in result['data']['children']
@@ -85,7 +84,7 @@ class DataPull():
         return self.image_results_dict(image_data)
 
     def get_quote(self, subreddit, n_pages=1):
-        token = self.login()
+        token = self.token
         quote_data = []
         after = None
         for page_number in range(n_pages):
@@ -101,7 +100,6 @@ class DataPull():
             response = requests.get(url, headers=headers)
             result = response.json()
             after = result['data']['after']
-#            sleep(2)
         quote_data.extend(
             [(quote['data']['title'])
                 for quote in result['data']['children']
