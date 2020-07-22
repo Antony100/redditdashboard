@@ -10,6 +10,10 @@ class DataPull():
         self.username = username
         self.password = password
         self.token = self.login()
+        self.headers = {
+            "Authorization": f"bearer {self.token['access_token']}",
+            "User-Agent": self.user_agent
+        }
 
     def login(self):
         headers = {"User-Agent": self.user_agent}
@@ -31,20 +35,15 @@ class DataPull():
         return response.json()
 
     def get_articles(self, subreddit, n_pages=1):
-        token = self.token
         stories = []
         after = None
         for page_number in range(n_pages):
-            headers = {
-                "Authorization": "bearer {}".format(token['access_token']),
-                "User-Agent": self.user_agent
-            }
 
             url = "https://oauth.reddit.com/r/{}?limit=5".format(subreddit)
 
             if after:
                 url += "&after={}".format(after)
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=self.headers)
             result = response.json()
             after = result['data']['after']
             stories.extend(
@@ -59,20 +58,15 @@ class DataPull():
         return self.article_results_dict(stories)
 
     def get_image(self, subreddit, n_pages=1):
-        token = self.token
         image_data = []
         after = None
         for page_number in range(n_pages):
-            headers = {
-                "Authorization": "bearer {}".format(token['access_token']),
-                "User-Agent": self.user_agent
-            }
 
             url = "https://oauth.reddit.com/r/{}?limit=1".format(subreddit)
 
             if after:
                 url += "&after={}".format(after)
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=self.headers)
             result = response.json()
             after = result['data']['after']
         image_data.extend(
@@ -84,20 +78,15 @@ class DataPull():
         return self.image_results_dict(image_data)
 
     def get_quote(self, subreddit, n_pages=1):
-        token = self.token
         quote_data = []
         after = None
         for page_number in range(n_pages):
-            headers = {
-                "Authorization": "bearer {}".format(token['access_token']),
-                "User-Agent": self.user_agent
-            }
 
             url = "https://oauth.reddit.com/r/{}?limit=1".format(subreddit)
 
             if after:
                 url += "&after={}".format(after)
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=self.headers)
             result = response.json()
             after = result['data']['after']
         quote_data.extend(
@@ -117,3 +106,4 @@ class DataPull():
 
     def quote_results_dict(self, data):
         return [dict(zip(['title'], item)) for item in data]
+
