@@ -35,40 +35,31 @@ class DataPull():
         return response.json()
 
     def get_articles(self, subreddit, n_pages=1):
+
         stories = []
-        after = None
-        for page_number in range(n_pages):
 
-            url = "https://oauth.reddit.com/r/{}?limit=5".format(subreddit)
+        url = "https://oauth.reddit.com/r/{}?limit=5".format(subreddit)
 
-            if after:
-                url += "&after={}".format(after)
-            response = requests.get(url, headers=self.headers)
-            result = response.json()
-            after = result['data']['after']
-            stories.extend(
-                [
-                    (story['data']['title'], story['data']['url'],
-                        story['data']['score'])
-                    for story in result['data']['children']
-                    if story['data']['stickied'] is False
-                ]
-            )
+        response = requests.get(url, headers=self.headers)
+        result = response.json()
+        stories.extend(
+            [
+                (story['data']['title'], story['data']['url'],
+                    story['data']['score'])
+                for story in result['data']['children']
+                if story['data']['stickied'] is False
+            ]
+        )
 
         return self.article_results_dict(stories)
 
     def get_image(self, subreddit, n_pages=1):
         image_data = []
-        after = None
-        for page_number in range(n_pages):
 
-            url = "https://oauth.reddit.com/r/{}?limit=1".format(subreddit)
+        url = "https://oauth.reddit.com/r/{}?limit=1".format(subreddit)
 
-            if after:
-                url += "&after={}".format(after)
-            response = requests.get(url, headers=self.headers)
-            result = response.json()
-            after = result['data']['after']
+        response = requests.get(url, headers=self.headers)
+        result = response.json()
         image_data.extend(
             [(image['data']['title'], image['data']['url'])
                 for image in result['data']['children']
@@ -79,16 +70,11 @@ class DataPull():
 
     def get_quote(self, subreddit, n_pages=1):
         quote_data = []
-        after = None
-        for page_number in range(n_pages):
 
-            url = "https://oauth.reddit.com/r/{}?limit=1".format(subreddit)
+        url = "https://oauth.reddit.com/r/{}?limit=1".format(subreddit)
 
-            if after:
-                url += "&after={}".format(after)
-            response = requests.get(url, headers=self.headers)
-            result = response.json()
-            after = result['data']['after']
+        response = requests.get(url, headers=self.headers)
+        result = response.json()
         quote_data.extend(
             [(quote['data']['title'])
                 for quote in result['data']['children']
