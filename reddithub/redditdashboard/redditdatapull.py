@@ -1,6 +1,6 @@
 import requests
 
-class DataPull():
+class RedditApi():
 
     def __init__(self, client_id, client_secret,
                  user_agent, username, password):

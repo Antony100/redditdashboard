@@ -8,7 +8,7 @@ class HomeView(View):
 
     template_name = 'redditdashboard/dashboard.html'
 
-    rdp = redditdatapull.DataPull(RC.CLIENT_ID, RC.CLIENT_SECRET,
+    rdp = redditdatapull.RedditApi(RC.CLIENT_ID, RC.CLIENT_SECRET,
                                   RC.USER_AGENT, RC.USERNAME, RC.PASSWORD)
 
     weather_data = api_data_pull.Weather()
