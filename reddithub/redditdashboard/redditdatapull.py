@@ -1,6 +1,6 @@
 import requests
 
-class DataPull():
+class RedditApi():
 
     def __init__(self, client_id, client_secret,
                  user_agent, username, password):
@@ -9,6 +9,17 @@ class DataPull():
         self.user_agent = user_agent
         self.username = username
         self.password = password
+        self.token = self.login()
+        self.headers = {
+            "Authorization": f"bearer {self.token['access_token']}",
+            "User-Agent": self.user_agent
+        }
+
+    def _get(self, subreddit, item_limit, headers):
+        url = f"https://oauth.reddit.com/r/{subreddit}?limit={item_limit}"
+        response = requests.get(url, headers)
+        result = response.json()
+        return result
 
     def login(self):
         headers = {"User-Agent": self.user_agent}
@@ -30,52 +41,33 @@ class DataPull():
         return response.json()
 
     def get_articles(self, subreddit, n_pages=1):
-        token = self.login()
+
         stories = []
-        after = None
-        for page_number in range(n_pages):
-            headers = {
-                "Authorization": "bearer {}".format(token['access_token']),
-                "User-Agent": self.user_agent
-            }
 
-            url = "https://oauth.reddit.com/r/{}?limit=5".format(subreddit)
+        result = self._get(subreddit, item_limit=2, headers=self.headers)
 
-            if after:
-                url += "&after={}".format(after)
-            response = requests.get(url, headers=headers)
-            result = response.json()
-            after = result['data']['after']
-#            sleep(2)
-            stories.extend(
-                [
-                    (story['data']['title'], story['data']['url'],
-                        story['data']['score'])
-                    for story in result['data']['children']
-                    if story['data']['stickied'] is False
-                ]
-            )
+        # url = "https://oauth.reddit.com/r/{}?limit=5".format(subreddit)
+
+        # response = requests.get(url, headers=self.headers)
+        # result = response.json()
+        stories.extend(
+            [
+                (story['data']['title'], story['data']['url'],
+                    story['data']['score'])
+                for story in result['data']['children']
+                if story['data']['stickied'] is False
+            ]
+        )
 
         return self.article_results_dict(stories)
 
     def get_image(self, subreddit, n_pages=1):
-        token = self.login()
         image_data = []
-        after = None
-        for page_number in range(n_pages):
-            headers = {
-                "Authorization": "bearer {}".format(token['access_token']),
-                "User-Agent": self.user_agent
-            }
 
-            url = "https://oauth.reddit.com/r/{}?limit=1".format(subreddit)
+        url = "https://oauth.reddit.com/r/{}?limit=1".format(subreddit)
 
-            if after:
-                url += "&after={}".format(after)
-            response = requests.get(url, headers=headers)
-            result = response.json()
-            after = result['data']['after']
-#            sleep(2)
+        response = requests.get(url, headers=self.headers)
+        result = response.json()
         image_data.extend(
             [(image['data']['title'], image['data']['url'])
                 for image in result['data']['children']
@@ -85,23 +77,12 @@ class DataPull():
         return self.image_results_dict(image_data)
 
     def get_quote(self, subreddit, n_pages=1):
-        token = self.login()
         quote_data = []
-        after = None
-        for page_number in range(n_pages):
-            headers = {
-                "Authorization": "bearer {}".format(token['access_token']),
-                "User-Agent": self.user_agent
-            }
 
-            url = "https://oauth.reddit.com/r/{}?limit=1".format(subreddit)
+        url = "https://oauth.reddit.com/r/{}?limit=1".format(subreddit)
 
-            if after:
-                url += "&after={}".format(after)
-            response = requests.get(url, headers=headers)
-            result = response.json()
-            after = result['data']['after']
-#            sleep(2)
+        response = requests.get(url, headers=self.headers)
+        result = response.json()
         quote_data.extend(
             [(quote['data']['title'])
                 for quote in result['data']['children']
@@ -119,3 +100,4 @@ class DataPull():
 
     def quote_results_dict(self, data):
         return [dict(zip(['title'], item)) for item in data]
+
