@@ -15,6 +15,12 @@ class RedditApi():
             "User-Agent": self.user_agent
         }
 
+    def _get(self, subreddit, item_limit, headers):
+        url = f"https://oauth.reddit.com/r/{subreddit}?limit={item_limit}"
+        response = requests.get(url, headers)
+        result = response.json()
+        return result
+
     def login(self):
         headers = {"User-Agent": self.user_agent}
         client_auth = requests.auth.HTTPBasicAuth(
@@ -38,10 +44,12 @@ class RedditApi():
 
         stories = []
 
-        url = "https://oauth.reddit.com/r/{}?limit=5".format(subreddit)
+        result = self._get(subreddit, item_limit=2, headers=self.headers)
 
-        response = requests.get(url, headers=self.headers)
-        result = response.json()
+        # url = "https://oauth.reddit.com/r/{}?limit=5".format(subreddit)
+
+        # response = requests.get(url, headers=self.headers)
+        # result = response.json()
         stories.extend(
             [
                 (story['data']['title'], story['data']['url'],
